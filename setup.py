@@ -23,5 +23,8 @@ setup(name         		= 'robotframework-mainframe3270',
       url          		= 'https://github.com/Altran-PT-GDC/Robot-Framework-Mainframe-3270-Library',
       packages  		= ['Mainframe3270'],
       package_data 		= {'Mainframe3270': []},
-      requires     		= ['robotframework', 'six']
+      install_requires  = [
+          'robotframework',
+          'py3270 @ git+http://github.com/siili-intelligent-automation/py3270',
+          ]
       )

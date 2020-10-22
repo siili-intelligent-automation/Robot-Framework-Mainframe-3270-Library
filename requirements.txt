@@ -1,0 +1,2 @@
+py3270== @ git+http://github.com/siili-intelligent-automation/py3270
+robotframework==3.2.2
