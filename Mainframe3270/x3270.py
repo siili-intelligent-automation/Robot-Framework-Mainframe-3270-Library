@@ -278,7 +278,6 @@ class x3270(object):
         self._write(txt, ypos=ypos, xpos=xpos)
 
     def _write(self, txt, ypos=None, xpos=None, enter='0'):
-        txt = txt.encode('utf-8')
         if ypos is not None and xpos is not None:
             self._check_limits(int(ypos), int(xpos))
             self.mf.move_to(int(ypos), int(xpos))
