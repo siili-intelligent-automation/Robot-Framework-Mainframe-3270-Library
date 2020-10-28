@@ -531,7 +531,7 @@ class x3270(object):
                 message = 'There are matches found for "' + txt + '" pattern'
             raise Exception(message)
 
-    def _read_all_screen(self):
+    def _read_all_screen(self, line_separators=False):
         """Read all the mainframe screen and return in a single string.
         """
         full_text = ''
@@ -540,7 +540,19 @@ class x3270(object):
             for char in line:
                 if char:
                     full_text += char
+            if line_separators:
+                full_text += '\n'
         return full_text
+    
+    def print_all_screen(self, to_robot_logger=False):
+        """Print everyting in the current mainframe screen with line separators, useful for debugging.
+        
+        Given argument to_robot_logger=True, will print to robot log with WARN status.
+        """
+        if to_robot_logger:
+            logger.warn(self._read_all_screen(True))
+        else:
+            print(self._read_all_screen(True))
 
     def _compare_all_list_with_screen_text(self, list_string, ignore_case, message, should_match):
         if ignore_case: list_string = [item.lower() for item in list_string]
