@@ -220,6 +220,12 @@ class x3270(object):
         self.mf.send_enter()
         time.sleep(self.wait)
 
+    def send_enter_in_position(self, ypos, xpos):
+        """Send Enter after moving to given coordinates.
+        """
+        self.mf.move_to(ypos, xpos)
+        self.send_enter()
+
     def move_next_field(self):
         """Move the cursor to the next input field. Equivalent to pressing the Tab key.
         """
