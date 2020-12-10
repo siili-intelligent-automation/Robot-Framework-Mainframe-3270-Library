@@ -304,12 +304,11 @@ class x3270(object):
         """
         max_time = time.ctime(int(time.time())+int(timeout))
         while time.ctime(int(time.time())) < max_time:
-            result = self._search_string(str(txt))
-            if result:
+            if self.string_exists(str(txt)):
                 return txt
         raise Exception('String "' + txt + '" not found in ' + str(timeout) + ' seconds')
 
-    def _search_string(self, string, ignore_case=False):
+    def string_exists(self, string, ignore_case=False):
         """Search if a string exists on the mainframe screen and return True or False.
         """
         def __read_screen(string, ignore_case):
@@ -336,8 +335,8 @@ class x3270(object):
         message = 'The string "' + txt + '" was not found'
         if error_message: message = error_message
         if ignore_case: txt = str(txt).lower()
-        result = self._search_string(txt, ignore_case)
-        if not result: raise Exception(message)
+        if not self.string_exists(txt, ignore_case):
+            raise Exception(message)
         logger.info('The string "' + txt + '" was found')
 
     def page_should_not_contain_string(self, txt, ignore_case=False, error_message=None):
@@ -354,8 +353,8 @@ class x3270(object):
         message = 'The string "' + txt + '" was found'
         if error_message: message = error_message
         if ignore_case: txt = str(txt).lower()
-        result = self._search_string(txt, ignore_case)
-        if result: raise Exception(message)
+        if self.string_exists(txt, ignore_case):
+            raise Exception(message)
 
     def page_should_contain_any_string(self, list_string, ignore_case=False, error_message=None):
         """Search if one of the strings in a given list exists on the mainframe screen.
@@ -372,7 +371,7 @@ class x3270(object):
         if error_message: message = error_message
         if ignore_case: list_string = [item.lower() for item in list_string]
         for string in list_string:
-            result = self._search_string(string, ignore_case)
+            result = self.string_exists(string, ignore_case)
             if result: break
         if not result: raise Exception(message)
 
@@ -418,8 +417,7 @@ class x3270(object):
         message = error_message
         if ignore_case: list_string = [item.lower() for item in list_string]
         for string in list_string:
-            result = self._search_string(string, ignore_case)
-            if result:
+            if self.string_exists(string, ignore_case):
                 if message is None:
                     message = 'The string "' + string + '" was found'
                 raise Exception(message)
@@ -563,7 +561,7 @@ class x3270(object):
     def _compare_all_list_with_screen_text(self, list_string, ignore_case, message, should_match):
         if ignore_case: list_string = [item.lower() for item in list_string]
         for string in list_string:
-            result = self._search_string(string, ignore_case)
+            result = self.string_exists(string, ignore_case)
             if not should_match and result:
                 if message is None:
                     message = 'The string "' + string + '" was found'
