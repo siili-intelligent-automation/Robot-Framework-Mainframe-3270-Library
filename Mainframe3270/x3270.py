@@ -437,7 +437,7 @@ class x3270(object):
         """
         message = error_message
         number = int(number)
-        all_screen = self._read_all_screen()
+        all_screen = self.read_all_screen()
         if ignore_case:
             txt = str(txt).lower()
             all_screen = str(all_screen).lower()
@@ -458,7 +458,7 @@ class x3270(object):
         Backslash is an escape character in the test data, and possible backslashes in the pattern must
         thus be escaped with another backslash (e.g. \\\d\\\w+).
         """
-        page_text = self._read_all_screen()
+        page_text = self.read_all_screen()
         if not re.findall(regex_pattern, page_text, re.MULTILINE):
             raise Exception('No matches found for "' + regex_pattern + '" pattern')
 
@@ -471,7 +471,7 @@ class x3270(object):
         Backslash is an escape character in the test data, and possible backslashes in the pattern must
         thus be escaped with another backslash (e.g. \\\d\\\w+).
         """
-        page_text = self._read_all_screen()
+        page_text = self.read_all_screen()
         if re.findall(regex_pattern, page_text, re.MULTILINE):
             raise Exception('There are matches found for "' + regex_pattern + '" pattern')
 
@@ -495,7 +495,7 @@ class x3270(object):
             | Page Should Contain Match | **something** | error_message=New error message |
         """
         message = error_message
-        all_screen = self._read_all_screen()
+        all_screen = self.read_all_screen()
         if ignore_case:
             txt = txt.lower()
             all_screen = all_screen.lower()
@@ -526,7 +526,7 @@ class x3270(object):
             | Page Should Not Contain Match | **something** | error_message=New error message |
         """
         message = error_message
-        all_screen = self._read_all_screen()
+        all_screen = self.read_all_screen()
         if ignore_case:
             txt = txt.lower()
             all_screen = all_screen.lower()
@@ -537,7 +537,7 @@ class x3270(object):
                 message = 'There are matches found for "' + txt + '" pattern'
             raise Exception(message)
 
-    def _read_all_screen(self, line_separators=False):
+    def read_all_screen(self, line_separators=False):
         """Read all the mainframe screen and return in a single string.
         """
         full_text = ''
@@ -556,9 +556,9 @@ class x3270(object):
         Given argument to_robot_logger=True, will print to robot log with WARN status.
         """
         if to_robot_logger:
-            logger.warn(self._read_all_screen(True))
+            logger.warn(self.read_all_screen(True))
         else:
-            print(self._read_all_screen(True))
+            print(self.read_all_screen(True))
 
     def _compare_all_list_with_screen_text(self, list_string, ignore_case, message, should_match):
         if ignore_case: list_string = [item.lower() for item in list_string]
